@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#11151e" />
+  <meta name="description" content="儲存 YouTube Podcast 播放位置，隨時從原進度繼續收聽。" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" href="./icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>Podcast Saver</title>
+</head>
+<body>
+  <main class="shell">
+    <header class="head">
+      <div class="brand"><div class="brand-icon">▶<span>⌁</span></div><div><h1>Podcast Saver</h1><p>你的 Podcast 進度，獨立保存</p></div></div>
+      <button class="small-btn" id="helpBtn" type="button" aria-label="操作說明">如何使用</button>
+    </header>
+    <section id="notice" class="notice" role="status" aria-live="polite" hidden></section>
+    <section class="hero" aria-label="最近收聽">
+      <div class="eyebrow">接續上次收聽</div>
+      <div id="latest" class="latest"></div>
+    </section>
+    <section class="toolbar"><h2>我的 Podcast <span id="count" class="count">0</span></h2><button id="addBtn" class="button secondary" type="button">＋ 新增連結</button></section>
+    <div class="search-bar"><input id="searchInput" type="search" placeholder="搜尋標題或影片 ID" autocomplete="off" aria-label="搜尋 Podcast" /></div>
+    <section id="items" class="items" aria-label="已儲存的 Podcast"></section>
+    <footer>資料只存在這台裝置的瀏覽器中。清除網站資料或解除安裝可能造成遺失。</footer>
+  </main>
+
+  <dialog id="editor">
+    <form id="editorForm" class="modal">
+      <div class="modal-head"><h2 id="modalTitle">新增 Podcast</h2><button id="closeEditor" class="icon-btn" type="button" aria-label="關閉">✕</button></div>
+      <label for="urlInput">YouTube 影片連結</label><textarea id="urlInput" rows="2" placeholder="https://youtu.be/VIDEO_ID?t=2300"></textarea>
+      <label for="titleInput">顯示名稱（可自行修改）</label><input id="titleInput" type="text" maxlength="160" placeholder="例如：科技訪談第 12 集" />
+      <label for="timeInput">目前進度（時:分:秒 或 分:秒）</label><input id="timeInput" type="text" inputmode="text" placeholder="00:38:20" />
+      <p class="field-hint">如果分享網址含有時間戳，系統會自動帶入；沒有時間戳時請手動填寫。</p>
+      <div class="modal-actions"><button id="cancelEditor" type="button" class="button secondary">取消</button><button class="button primary" type="submit">儲存</button></div>
+      <p id="formError" class="error" role="alert"></p>
+    </form>
+  </dialog>
+
+  <dialog id="helpDialog"><div class="modal help"><div class="modal-head"><h2>如何使用</h2><button id="closeHelp" type="button" class="icon-btn" aria-label="關閉">✕</button></div><ol><li>用 <strong>Android Chrome</strong> 開啟此網站，選單選「安裝應用程式」（必須是真的安裝，而不只是書籤捷徑）。</li><li>在 YouTube 暫停影片，按「分享」，開啟分享面板中的 <strong>時間戳</strong>，再選「Podcast Saver」。</li><li>分享時會自動儲存影片與秒數。同一支影片再次分享會更新進度，不會重複新增。</li><li>點「繼續播放」打開 YouTube 的時間戳連結。若開在瀏覽器，請到 Android 設定允許 YouTube 開啟支援的連結。</li></ol><p>注意：YouTube 不會把播放進度主動傳給本工具。每次聽完需再次分享才會更新。</p><button class="button primary wide" type="button" id="doneHelp">知道了</button></div></dialog>
+  <script src="./logic.js"></script>
+  <script src="./app.js" defer></script>
+</body>
+</html>
