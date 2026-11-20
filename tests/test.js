@@ -1,0 +1,15 @@
+const assert = require('node:assert/strict');
+const {extract,parseTime,fmt,link} = require('../logic.js');
+const video='dQw4w9WgXcQ';
+assert.deepEqual(extract(`Hey watch https://youtu.be/${video}?si=abc&t=38m20s`), {id:video,seconds:2300,url:`https://www.youtube.com/watch?v=${video}`});
+assert.equal(extract(`https://www.youtube.com/watch?v=${video}&t=1h2m3s`).seconds,3723);
+assert.equal(extract(`https://music.youtube.com/watch?v=${video}&start=42`).seconds,42);
+assert.equal(extract(`https://www.youtube.com/watch?v=${video}`).seconds,null);
+assert.equal(extract(`https://www.youtube.com/shorts/${video}?t=5`).seconds,5);
+assert.equal(extract(`https://youtu.be/${video}#t=2m`).seconds,120);
+assert.equal(extract('https://www.youtube.com/watch?v=invalid'),null);
+assert.equal(extract('https://evil.youtube.com.evil.org/watch?v='+video),null);
+assert.equal(parseTime('1:02:03'),3723);assert.equal(parseTime('38:20'),2300);assert.equal(parseTime('1:99'),null);
+assert.equal(fmt(3723),'1:02:03');assert.equal(fmt(2300),'38:20');
+assert.equal(link(video,2300),`https://www.youtube.com/watch?v=${video}&t=2300s`);
+console.log('PASS: YouTube links, timestamp formats, URL validation, duration formatting');
